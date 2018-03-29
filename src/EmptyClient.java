@@ -62,15 +62,16 @@ public class EmptyClient extends WebSocketClient {
 
                 String str = kin.nextLine();
 
-                if (str.equals("exit")) {
-                    client.send("Exit command sent");
-                    flag = false;
-                } else {
+                if (!str.equals("exit")) {
                     client.send(str);
+                }
+                else {
+                    flag = false;
                 }
 
             }
             System.out.println("End Prog \\\\");
+            client.closeConnection(0, "Exit code received");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
