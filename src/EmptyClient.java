@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
-import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 public class EmptyClient extends WebSocketClient {

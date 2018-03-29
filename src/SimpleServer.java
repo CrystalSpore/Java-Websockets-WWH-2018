@@ -21,10 +21,12 @@ public class SimpleServer extends WebSocketServer {
         super(address);
     }
 
+    private static String myString = null;
+
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         conn.send("Welcome to the server!"); //sends message to new client
-        broadcast("new connection: " + handshake.getResourceDescriptor() ); //this method sends a message to all clients connected
-        System.out.println("new connection to " + conn.getRemoteSocketAddress() );
+        broadcast("new connection: " + handshake.getResourceDescriptor()); //this method sends a message to all clients connected
+        System.out.println("new connection to " + conn.getRemoteSocketAddress());
     }
 
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
@@ -32,15 +34,19 @@ public class SimpleServer extends WebSocketServer {
     }
 
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("received message from "	+ conn.getRemoteSocketAddress() + ": " + message);
+        System.out.println("received message from " + conn.getRemoteSocketAddress() + ": " + message);
+
+        //*** VelociTap code will need to go here ***//
+
+        //myString = message;
     }
 
-    public void onMessage( WebSocket conn, ByteBuffer message ) {
-        System.out.println("received ByteBuffer from "	+ conn.getRemoteSocketAddress());
+    public void onMessage(WebSocket conn, ByteBuffer message) {
+        System.out.println("received ByteBuffer from " + conn.getRemoteSocketAddress());
     }
 
     public void onError(WebSocket conn, Exception ex) {
-        System.err.println("an error occured on connection " + conn.getRemoteSocketAddress()  + ":" + ex);
+        System.err.println("an error occured on connection " + conn.getRemoteSocketAddress() + ":" + ex);
     }
 
     public void onStart() {
@@ -54,7 +60,14 @@ public class SimpleServer extends WebSocketServer {
 
         WebSocketServer server = new SimpleServer(new InetSocketAddress(host, port));
         server.run();
-    }
 
+        //*** Below code is inaccessible due to the loop in server.run() method ***//
+        /*while(true) {
+            if ( myString != null ) {
+                System.out.println("myString is: " + myString);
+                myString = null;
+            }
+        }*/
+    }
 
 }
